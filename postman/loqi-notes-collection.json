@@ -1,0 +1,580 @@
+{
+  "info": {
+    "name": "LoqiNotes API",
+    "description": "API collection for LoqiNotes - AI-native note-taking system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Check if the API is running"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Get Session",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/auth.getSession",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "auth.getSession"]
+            },
+            "description": "Get current user session"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/auth.getProfile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "auth.getProfile"]
+            },
+            "description": "Get user profile information"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"John Doe\",\n  \"preferences\": {\n    \"theme\": \"dark\",\n    \"defaultTags\": [\"work\", \"personal\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/auth.updateProfile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "auth.updateProfile"]
+            },
+            "description": "Update user profile"
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication and user profile endpoints"
+    },
+    {
+      "name": "Notes",
+      "item": [
+        {
+          "name": "Create Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My First Note\",\n  \"content\": \"This is the content of my note\",\n  \"tagIds\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "notes.create"]
+            },
+            "description": "Create a new note"
+          },
+          "response": []
+        },
+        {
+          "name": "List Notes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.list?input={\"limit\":20,\"offset\":0}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "notes.list"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"limit\":20,\"offset\":0}"
+                }
+              ]
+            },
+            "description": "List all notes with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Note by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.getById?input={\"id\":\"note-uuid-here\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "notes.getById"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"id\":\"note-uuid-here\"}"
+                }
+              ]
+            },
+            "description": "Get a specific note by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"note-uuid-here\",\n  \"title\": \"Updated Title\",\n  \"content\": \"Updated content\",\n  \"version\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "notes.update"]
+            },
+            "description": "Update an existing note"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"note-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "notes.delete"]
+            },
+            "description": "Soft delete a note"
+          },
+          "response": []
+        }
+      ],
+      "description": "Notes CRUD operations"
+    },
+    {
+      "name": "Tags",
+      "item": [
+        {
+          "name": "Create Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Work\",\n  \"color\": \"#3B82F6\",\n  \"icon\": \"💼\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.create"]
+            },
+            "description": "Create a new tag"
+          },
+          "response": []
+        },
+        {
+          "name": "List Tags",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.list",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.list"]
+            },
+            "description": "List all tags"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Tag to Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"tagId\": \"tag-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.addToNote",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.addToNote"]
+            },
+            "description": "Add tag to a note"
+          },
+          "response": []
+        }
+      ],
+      "description": "Tag management endpoints"
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Semantic Search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/search.semantic?input={\"query\":\"search query here\",\"limit\":10}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "search.semantic"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"query\":\"search query here\",\"limit\":10}"
+                }
+              ]
+            },
+            "description": "Semantic search across notes using embeddings"
+          },
+          "response": []
+        }
+      ],
+      "description": "Search endpoints"
+    },
+    {
+      "name": "AI",
+      "item": [
+        {
+          "name": "Summarize Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"length\": \"medium\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/ai.summarize",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "ai.summarize"]
+            },
+            "description": "Generate a summary of a note"
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Questions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"count\": 5,\n  \"type\": \"mixed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/ai.generateQuestions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "ai.generateQuestions"]
+            },
+            "description": "Generate questions from a note"
+          },
+          "response": []
+        }
+      ],
+      "description": "AI-powered features"
+    },
+    {
+      "name": "Quiz",
+      "item": [
+        {
+          "name": "Generate Quiz",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"difficulty\": \"medium\",\n  \"questionCount\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/quiz.generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "quiz.generate"]
+            },
+            "description": "Generate a quiz from notes"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Quiz Attempt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quizId\": \"quiz-uuid-here\",\n  \"answers\": [\n    {\n      \"questionId\": \"q1\",\n      \"selectedAnswer\": 0,\n      \"isCorrect\": true\n    }\n  ],\n  \"timeSpentSeconds\": 120\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/quiz.submitAttempt",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "quiz.submitAttempt"]
+            },
+            "description": "Submit quiz answers"
+          },
+          "response": []
+        }
+      ],
+      "description": "Quiz generation and attempts"
+    },
+    {
+      "name": "Study",
+      "item": [
+        {
+          "name": "Get Due Reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/study.getDueReviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "study.getDueReviews"]
+            },
+            "description": "Get notes due for review"
+          },
+          "response": []
+        },
+        {
+          "name": "Record Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"quality\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/study.recordReview",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "study.recordReview"]
+            },
+            "description": "Record a spaced repetition review (0-5 quality)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Study Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/study.getStats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "study.getStats"]
+            },
+            "description": "Get study statistics"
+          },
+          "response": []
+        }
+      ],
+      "description": "Spaced repetition study system"
+    }
+  ]
+}
