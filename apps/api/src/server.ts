@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
@@ -6,9 +6,8 @@ import { appRouter } from './trpc/router';
 import { createContext } from './trpc/context';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './lib/logger';
-import { config } from './config';
 
-const app = express();
+const app: Express = express();
 
 // Security middleware
 app.use(helmet());

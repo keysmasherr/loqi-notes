@@ -1,13 +1,7 @@
-import { eq, isNull } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import type { UpdateProfileInput } from '@loqi-notes/shared-types';
 import { users } from '../../db/schema';
 import { NotFoundError } from '../../utils/errors';
-import type { ExtractTablesWithRelations } from 'drizzle-orm';
-import type { PgTransaction } from 'drizzle-orm/pg-core';
-import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
-import type * as schema from '../../db/schema';
-
-type DB = PgTransaction<PostgresJsQueryResultHKT, typeof schema, ExtractTablesWithRelations<typeof schema>> | ReturnType<typeof import('../../db').db.query>;
 
 export async function getProfile(userId: string, db: any) {
   const user = await db.query.users.findFirst({

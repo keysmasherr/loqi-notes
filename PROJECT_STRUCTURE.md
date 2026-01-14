@@ -123,7 +123,7 @@ Legend: ✅ Done | 📁 Folder created | 🚧 In progress
 ## Technology Stack
 
 ### Backend
-- **Runtime**: Node.js 18.20.0
+- **Runtime**: Node.js 23.3.0
 - **Framework**: Express.js
 - **API**: tRPC (type-safe)
 - **Language**: TypeScript (strict)
@@ -140,7 +140,7 @@ Legend: ✅ Done | 📁 Folder created | 🚧 In progress
 
 ### DevOps
 - **Monorepo**: Turborepo
-- **Package Manager**: pnpm 8.15.0
+- **Package Manager**: pnpm 9.12.3
 - **Code Quality**: ESLint + Prettier
 - **Background Jobs**: Inngest (configured)
 

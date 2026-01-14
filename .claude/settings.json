@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsImtpZCI6IlJxaHBuWTFGcHRSVWY5ekMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3hqamNtbXJsYXVmYWhsaHpvd2p6LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJiNDRhZTA3Mi0wNTAyLTQ1NzQtOWE0Zi1hNWUwNjg3M2I0MDEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY4NDIxMzA2LCJpYXQiOjE3Njg0MTc3MDYsImVtYWlsIjoia2V5c21hc2hlcnJAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbF92ZXJpZmllZCI6dHJ1ZX0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoib3RwIiwidGltZXN0YW1wIjoxNzY4NDE3NzA2fV0sInNlc3Npb25faWQiOiJhMzAxYTRmOC0zMDBjLTQyNGItOGFkOC0yZDE5ZTlhYmQ0MjUiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.FVHnD-SEvGCeK_KO47ZB1C80OP8U73qSNWycdAjqVbY\")",
+      "Bash(__NEW_LINE_7091f91f451eab08__ echo \"=== 1. List Courses \\(should be empty\\) ===\")"
+    ]
+  }
+}

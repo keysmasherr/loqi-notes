@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 
+// Load .env from project root (2 levels up from src/config/)
 dotenv.config();
 
 export const config = {

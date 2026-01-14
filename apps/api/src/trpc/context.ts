@@ -1,10 +1,19 @@
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
+import type { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { db } from '../db';
 import { logger } from '../lib/logger';
 
-export const createContext = async ({ req, res }: CreateExpressContextOptions) => {
-  // Extract authorization token from header
+export interface Context {
+  req: CreateExpressContextOptions['req'];
+  res: CreateExpressContextOptions['res'];
+  db: typeof db;
+  session: { user: User } | null;
+  user: User | null;
+  logger: typeof logger;
+}
+
+export const createContext = async ({ req, res }: CreateExpressContextOptions): Promise<Context> => {
   const authHeader = req.headers.authorization;
   const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
 
@@ -33,5 +42,3 @@ export const createContext = async ({ req, res }: CreateExpressContextOptions) =
     logger,
   };
 };
-
-export type Context = Awaited<ReturnType<typeof createContext>>;

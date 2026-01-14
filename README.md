@@ -15,7 +15,7 @@ LoqiNotes is a modern note-taking application that transforms passive note stora
 ## Tech Stack
 
 ### Backend
-- **Runtime:** Node.js 18.20.0
+- **Runtime:** Node.js 23.3.0
 - **Framework:** Express + tRPC for type-safe APIs
 - **Language:** TypeScript (strict mode)
 - **Database:** Supabase Postgres with pgvector for embeddings
@@ -41,8 +41,8 @@ loqi-notes/
 
 ### Prerequisites
 
-- Node.js 18.20.0
-- pnpm 8.15.0
+- Node.js 23.3.0
+- pnpm 9.12.3
 - Supabase account with configured database
 - API keys for Anthropic and OpenAI
 

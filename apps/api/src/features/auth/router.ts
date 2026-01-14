@@ -1,9 +1,9 @@
-import { router, publicProcedure, protectedProcedure } from '../../trpc';
-import { z } from 'zod';
+import { router, protectedProcedure } from '../../trpc';
 import { getProfile, updateProfile } from './service';
 import { UpdateProfileInputSchema } from '@loqi-notes/shared-types';
 
 export const authRouter = router({
+    
   getSession: protectedProcedure.query(async ({ ctx }) => {
     return {
       user: ctx.user,
