@@ -6,6 +6,13 @@ node_modules/
 # Testing
 coverage/
 *.lcov
+apps/api/tests/reports/
+apps/api/tests/output/
+*.test-output.json
+*.integration-report.md
+INTEGRATION_TEST_REPORT*.md
+TEST_EXECUTION_SUMMARY.md
+QUICK_REFERENCE.md
 
 # Build outputs
 dist/
@@ -15,12 +22,24 @@ out/
 
 # Environment variables
 .env
+.env*
 .env*.local
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 .env.test-credentials
+!.env.example
+
+# Secrets and credentials (NEVER commit these)
+**/credentials*.json
+**/secrets*.json
+**/*token*.txt
+**/*secret*.txt
+**/*password*.txt
+**/auth-token*
+*.key
+*.pem
 
 # Logs
 logs

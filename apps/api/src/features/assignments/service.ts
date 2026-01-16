@@ -1,4 +1,4 @@
-import { eq, and, isNull, gte, lte, inArray, sql } from 'drizzle-orm';
+import { eq, and, isNull, gte, lte, inArray, type SQL } from 'drizzle-orm';
 import type {
   CreateAssignmentInput,
   UpdateAssignmentInput,
@@ -11,6 +11,22 @@ import type {
 } from '@loqi-notes/shared-types';
 import { assignments, assignmentNotes, courses } from '../../db/schema';
 import { NotFoundError } from '../../utils/errors';
+
+type ConditionBuilder<T> = (value: NonNullable<T>) => SQL;
+
+function buildConditions<T extends Record<string, unknown>>(
+  input: T,
+  conditionMap: Partial<{ [K in keyof T]: ConditionBuilder<T[K]> }>
+): SQL[] {
+  const conditions: SQL[] = [];
+  for (const key in conditionMap) {
+    const value = input[key];
+    if (value !== undefined && value !== null) {
+      conditions.push(conditionMap[key]!(value as NonNullable<T[typeof key]>));
+    }
+  }
+  return conditions;
+}
 
 export async function createAssignment(
   userId: string,
@@ -36,35 +52,20 @@ export async function listAssignments(
   input: ListAssignmentsInput,
   db: any
 ) {
-  const conditions = [eq(assignments.userId, userId)];
+  const filterConditions = buildConditions(input, {
+    courseId: (val) => eq(assignments.courseId, val),
+    status: (val) => eq(assignments.status, val),
+    type: (val) => eq(assignments.type, val),
+    priority: (val) => eq(assignments.priority, val),
+    fromDate: (val) => gte(assignments.dueDate, val),
+    toDate: (val) => lte(assignments.dueDate, val),
+  });
 
-  if (!input.includeDeleted) {
-    conditions.push(isNull(assignments.deletedAt));
-  }
-
-  if (input.courseId) {
-    conditions.push(eq(assignments.courseId, input.courseId));
-  }
-
-  if (input.status) {
-    conditions.push(eq(assignments.status, input.status));
-  }
-
-  if (input.type) {
-    conditions.push(eq(assignments.type, input.type));
-  }
-
-  if (input.priority) {
-    conditions.push(eq(assignments.priority, input.priority));
-  }
-
-  if (input.fromDate) {
-    conditions.push(gte(assignments.dueDate, input.fromDate));
-  }
-
-  if (input.toDate) {
-    conditions.push(lte(assignments.dueDate, input.toDate));
-  }
+  const conditions = [
+    eq(assignments.userId, userId),
+    ...(!input.includeDeleted ? [isNull(assignments.deletedAt)] : []),
+    ...filterConditions,
+  ];
 
   const result = await db
     .select({

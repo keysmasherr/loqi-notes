@@ -133,7 +133,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"My First Note\",\n  \"content\": \"This is the content of my note\",\n  \"tagIds\": []\n}"
+              "raw": "{\n  \"title\": \"My First Note\",\n  \"content\": \"This is the content of my note\",\n  \"tagIds\": [],\n  \"hasHandwriting\": false\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/trpc/notes.create",
@@ -156,13 +156,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/notes.list?input={\"limit\":20,\"offset\":0}",
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.list?input={\"limit\":20,\"offset\":0,\"sortBy\":\"updatedAt\",\"sortOrder\":\"desc\"}",
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "trpc", "notes.list"],
               "query": [
                 {
                   "key": "input",
-                  "value": "{\"limit\":20,\"offset\":0}"
+                  "value": "{\"limit\":20,\"offset\":0,\"sortBy\":\"updatedAt\",\"sortOrder\":\"desc\"}"
                 }
               ]
             },
@@ -253,6 +253,35 @@
             "description": "Soft delete a note"
           },
           "response": []
+        },
+        {
+          "name": "Restore Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"note-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/notes.restore",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "notes.restore"]
+            },
+            "description": "Restore a soft-deleted note"
+          },
+          "response": []
         }
       ],
       "description": "Notes CRUD operations"
@@ -278,7 +307,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Work\",\n  \"color\": \"#3B82F6\",\n  \"icon\": \"💼\"\n}"
+              "raw": "{\n  \"name\": \"Work\",\n  \"color\": \"#3B82F6\",\n  \"icon\": \"briefcase\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/trpc/tags.create",
@@ -310,6 +339,90 @@
           "response": []
         },
         {
+          "name": "Get Tag by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.getById?input={\"id\":\"tag-uuid-here\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.getById"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"id\":\"tag-uuid-here\"}"
+                }
+              ]
+            },
+            "description": "Get a specific tag by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"tag-uuid-here\",\n  \"name\": \"Updated Tag Name\",\n  \"color\": \"#EF4444\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.update"]
+            },
+            "description": "Update an existing tag"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"tag-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.delete"]
+            },
+            "description": "Delete a tag"
+          },
+          "response": []
+        },
+        {
           "name": "Add Tag to Note",
           "request": {
             "method": "POST",
@@ -337,15 +450,73 @@
             "description": "Add tag to a note"
           },
           "response": []
+        },
+        {
+          "name": "Remove Tag from Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"tagId\": \"tag-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/tags.removeFromNote",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "tags.removeFromNote"]
+            },
+            "description": "Remove tag from a note"
+          },
+          "response": []
         }
       ],
       "description": "Tag management endpoints"
     },
     {
-      "name": "Search",
+      "name": "Courses",
       "item": [
         {
-          "name": "Semantic Search",
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Introduction to Computer Science\",\n  \"code\": \"CS101\",\n  \"section\": \"A\",\n  \"instructor\": \"Dr. Smith\",\n  \"location\": \"Room 101\",\n  \"color\": \"#3B82F6\",\n  \"term\": \"Fall 2024\",\n  \"credits\": 3,\n  \"description\": \"Fundamentals of programming and computer science\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "courses.create"]
+            },
+            "description": "Create a new course"
+          },
+          "response": []
+        },
+        {
+          "name": "List Courses",
           "request": {
             "method": "GET",
             "header": [
@@ -356,156 +527,22 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/search.semantic?input={\"query\":\"search query here\",\"limit\":10}",
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.list?input={\"includeDeleted\":false}",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "search.semantic"],
+              "path": ["api", "v1", "trpc", "courses.list"],
               "query": [
                 {
                   "key": "input",
-                  "value": "{\"query\":\"search query here\",\"limit\":10}"
+                  "value": "{\"includeDeleted\":false}"
                 }
               ]
             },
-            "description": "Semantic search across notes using embeddings"
-          },
-          "response": []
-        }
-      ],
-      "description": "Search endpoints"
-    },
-    {
-      "name": "AI",
-      "item": [
-        {
-          "name": "Summarize Note",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"length\": \"medium\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/ai.summarize",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "ai.summarize"]
-            },
-            "description": "Generate a summary of a note"
+            "description": "List all courses with optional term filter"
           },
           "response": []
         },
         {
-          "name": "Generate Questions",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"count\": 5,\n  \"type\": \"mixed\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/ai.generateQuestions",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "ai.generateQuestions"]
-            },
-            "description": "Generate questions from a note"
-          },
-          "response": []
-        }
-      ],
-      "description": "AI-powered features"
-    },
-    {
-      "name": "Quiz",
-      "item": [
-        {
-          "name": "Generate Quiz",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"difficulty\": \"medium\",\n  \"questionCount\": 5\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/quiz.generate",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "quiz.generate"]
-            },
-            "description": "Generate a quiz from notes"
-          },
-          "response": []
-        },
-        {
-          "name": "Submit Quiz Attempt",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"quizId\": \"quiz-uuid-here\",\n  \"answers\": [\n    {\n      \"questionId\": \"q1\",\n      \"selectedAnswer\": 0,\n      \"isCorrect\": true\n    }\n  ],\n  \"timeSpentSeconds\": 120\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/quiz.submitAttempt",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "quiz.submitAttempt"]
-            },
-            "description": "Submit quiz answers"
-          },
-          "response": []
-        }
-      ],
-      "description": "Quiz generation and attempts"
-    },
-    {
-      "name": "Study",
-      "item": [
-        {
-          "name": "Get Due Reviews",
+          "name": "Get Course by ID",
           "request": {
             "method": "GET",
             "header": [
@@ -516,16 +553,22 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/study.getDueReviews",
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.getById?input={\"id\":\"course-uuid-here\"}",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "study.getDueReviews"]
+              "path": ["api", "v1", "trpc", "courses.getById"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"id\":\"course-uuid-here\"}"
+                }
+              ]
             },
-            "description": "Get notes due for review"
+            "description": "Get a specific course by ID"
           },
           "response": []
         },
         {
-          "name": "Record Review",
+          "name": "Update Course",
           "request": {
             "method": "POST",
             "header": [
@@ -542,19 +585,135 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"noteId\": \"note-uuid-here\",\n  \"quality\": 4\n}"
+              "raw": "{\n  \"id\": \"course-uuid-here\",\n  \"name\": \"Advanced Computer Science\",\n  \"instructor\": \"Dr. Johnson\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/study.recordReview",
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.update",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "study.recordReview"]
+              "path": ["api", "v1", "trpc", "courses.update"]
             },
-            "description": "Record a spaced repetition review (0-5 quality)"
+            "description": "Update an existing course"
           },
           "response": []
         },
         {
-          "name": "Get Study Stats",
+          "name": "Delete Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"course-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "courses.delete"]
+            },
+            "description": "Delete a course"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Class Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"course-uuid-here\",\n  \"dayOfWeek\": 1,\n  \"startTime\": \"09:00\",\n  \"endTime\": \"10:30\",\n  \"location\": \"Room 101\",\n  \"classType\": \"lecture\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.addClassSchedule",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "courses.addClassSchedule"]
+            },
+            "description": "Add a class schedule to a course (dayOfWeek: 0=Sunday, 6=Saturday; classType: lecture, lab, discussion, office_hours, other)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Class Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"schedule-uuid-here\",\n  \"startTime\": \"10:00\",\n  \"endTime\": \"11:30\",\n  \"location\": \"Room 202\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.updateClassSchedule",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "courses.updateClassSchedule"]
+            },
+            "description": "Update an existing class schedule"
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Class Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"schedule-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.removeClassSchedule",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "courses.removeClassSchedule"]
+            },
+            "description": "Remove a class schedule"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Weekly Schedule",
           "request": {
             "method": "GET",
             "header": [
@@ -565,16 +724,786 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/trpc/study.getStats",
+              "raw": "{{baseUrl}}/api/v1/trpc/courses.getWeeklySchedule",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trpc", "study.getStats"]
+              "path": ["api", "v1", "trpc", "courses.getWeeklySchedule"]
             },
-            "description": "Get study statistics"
+            "description": "Get weekly class schedule for all courses"
           },
           "response": []
         }
       ],
-      "description": "Spaced repetition study system"
+      "description": "Course management and class scheduling"
+    },
+    {
+      "name": "Assignments",
+      "item": [
+        {
+          "name": "Create Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"course-uuid-here\",\n  \"title\": \"Homework 1\",\n  \"description\": \"Complete exercises 1-10\",\n  \"type\": \"assignment\",\n  \"dueDate\": \"2024-12-31T23:59:59.000Z\",\n  \"priority\": \"medium\",\n  \"weight\": 10,\n  \"maxGrade\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.create"]
+            },
+            "description": "Create a new assignment (types: assignment, exam, quiz, project, paper, presentation, other)"
+          },
+          "response": []
+        },
+        {
+          "name": "List Assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.list?input={\"limit\":50,\"offset\":0}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.list"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"limit\":50,\"offset\":0}"
+                }
+              ]
+            },
+            "description": "List assignments with optional filters (courseId, status, type, priority, fromDate, toDate)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Assignment by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.getById?input={\"id\":\"assignment-uuid-here\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.getById"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"id\":\"assignment-uuid-here\"}"
+                }
+              ]
+            },
+            "description": "Get a specific assignment by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"assignment-uuid-here\",\n  \"title\": \"Updated Homework 1\",\n  \"description\": \"Complete exercises 1-15\",\n  \"priority\": \"high\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.update"]
+            },
+            "description": "Update an existing assignment"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"assignment-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.delete"]
+            },
+            "description": "Delete an assignment"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Assignment Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"assignment-uuid-here\",\n  \"status\": \"in_progress\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.updateStatus",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.updateStatus"]
+            },
+            "description": "Update assignment status (pending, in_progress, completed, submitted, graded, cancelled)"
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Assignment Complete",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"assignment-uuid-here\",\n  \"grade\": 95\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.markComplete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.markComplete"]
+            },
+            "description": "Mark an assignment as complete with optional grade"
+          },
+          "response": []
+        },
+        {
+          "name": "Record Grade",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"assignment-uuid-here\",\n  \"grade\": 92,\n  \"feedback\": \"Great work on the analysis section!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.recordGrade",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.recordGrade"]
+            },
+            "description": "Record a grade for an assignment with optional feedback"
+          },
+          "response": []
+        },
+        {
+          "name": "Link Notes to Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignmentId\": \"assignment-uuid-here\",\n  \"noteIds\": [\"note-uuid-1\", \"note-uuid-2\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.linkNotes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.linkNotes"]
+            },
+            "description": "Link notes to an assignment"
+          },
+          "response": []
+        },
+        {
+          "name": "Unlink Note from Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignmentId\": \"assignment-uuid-here\",\n  \"noteId\": \"note-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.unlinkNote",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.unlinkNote"]
+            },
+            "description": "Unlink a note from an assignment"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Due Assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.getDue?input={\"days\":7}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.getDue"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"days\":7}"
+                }
+              ]
+            },
+            "description": "Get assignments due within specified days (default 7, max 30)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upcoming Assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/assignments.getUpcoming?input={\"limit\":10}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "assignments.getUpcoming"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"limit\":10}"
+                }
+              ]
+            },
+            "description": "Get upcoming assignments sorted by due date"
+          },
+          "response": []
+        }
+      ],
+      "description": "Assignment management and tracking"
+    },
+    {
+      "name": "Study Sessions",
+      "item": [
+        {
+          "name": "Create Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"course-uuid-here\",\n  \"title\": \"Chapter 5 Review\",\n  \"scheduledStart\": \"2024-12-20T14:00:00.000Z\",\n  \"scheduledEnd\": \"2024-12-20T16:00:00.000Z\",\n  \"sessionType\": \"study\",\n  \"includeReviews\": true,\n  \"goals\": [\n    {\"description\": \"Review chapter 5 concepts\", \"completed\": false},\n    {\"description\": \"Complete practice problems\", \"completed\": false}\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.create"]
+            },
+            "description": "Create a new study session (types: study, review, practice, reading, writing, other)"
+          },
+          "response": []
+        },
+        {
+          "name": "List Study Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.list?input={\"limit\":50,\"offset\":0}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.list"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"limit\":50,\"offset\":0}"
+                }
+              ]
+            },
+            "description": "List study sessions with optional filters (courseId, assignmentId, status, sessionType, fromDate, toDate)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Study Session by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.getById?input={\"id\":\"session-uuid-here\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.getById"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"id\":\"session-uuid-here\"}"
+                }
+              ]
+            },
+            "description": "Get a specific study session by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"session-uuid-here\",\n  \"title\": \"Updated Session Title\",\n  \"scheduledEnd\": \"2024-12-20T17:00:00.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.update"]
+            },
+            "description": "Update an existing study session"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"session-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.delete"]
+            },
+            "description": "Delete a study session"
+          },
+          "response": []
+        },
+        {
+          "name": "Start Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"session-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.start",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.start"]
+            },
+            "description": "Start a scheduled study session"
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"session-uuid-here\",\n  \"productivityRating\": 4,\n  \"notes\": \"Completed all practice problems, need more review on section 5.3\",\n  \"goals\": [\n    {\"description\": \"Review chapter 5 concepts\", \"completed\": true},\n    {\"description\": \"Complete practice problems\", \"completed\": true}\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.complete"]
+            },
+            "description": "Complete a study session with productivity rating (1-5) and notes"
+          },
+          "response": []
+        },
+        {
+          "name": "Skip Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"session-uuid-here\",\n  \"reason\": \"Had an unexpected meeting\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.skip",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.skip"]
+            },
+            "description": "Skip a scheduled study session with optional reason"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Today's Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/studySessions.getToday",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "studySessions.getToday"]
+            },
+            "description": "Get all study sessions scheduled for today"
+          },
+          "response": []
+        }
+      ],
+      "description": "Study session management and tracking"
+    },
+    {
+      "name": "Schedule",
+      "item": [
+        {
+          "name": "Get Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.getEvents?input={\"startDate\":\"2024-12-01T00:00:00.000Z\",\"endDate\":\"2024-12-31T23:59:59.000Z\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.getEvents"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"startDate\":\"2024-12-01T00:00:00.000Z\",\"endDate\":\"2024-12-31T23:59:59.000Z\"}"
+                }
+              ]
+            },
+            "description": "Get all schedule events within a date range (types: class, assignment, exam, study_session, office_hours, generic)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Day Schedule",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.getDay?input={\"date\":\"2024-12-15T00:00:00.000Z\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.getDay"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"date\":\"2024-12-15T00:00:00.000Z\"}"
+                }
+              ]
+            },
+            "description": "Get schedule for a specific day"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Week Schedule",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.getWeek?input={\"startOfWeek\":\"2024-12-16T00:00:00.000Z\"}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.getWeek"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"startOfWeek\":\"2024-12-16T00:00:00.000Z\"}"
+                }
+              ]
+            },
+            "description": "Get week schedule starting from a given date"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Month Schedule",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.getMonth?input={\"year\":2024,\"month\":12}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.getMonth"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"year\":2024,\"month\":12}"
+                }
+              ]
+            },
+            "description": "Get all events for a specific month"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Today's Schedule",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.getToday",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.getToday"]
+            },
+            "description": "Get today's schedule including classes, assignments, and study sessions"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upcoming Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.getUpcoming",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.getUpcoming"]
+            },
+            "description": "Get upcoming events for the next 7 days"
+          },
+          "response": []
+        },
+        {
+          "name": "Find Free Slots",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trpc/schedule.findFreeSlots?input={\"date\":\"2024-12-15T00:00:00.000Z\",\"minDurationMinutes\":30,\"preferredTimeOfDay\":\"afternoon\",\"limit\":5}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trpc", "schedule.findFreeSlots"],
+              "query": [
+                {
+                  "key": "input",
+                  "value": "{\"date\":\"2024-12-15T00:00:00.000Z\",\"minDurationMinutes\":30,\"preferredTimeOfDay\":\"afternoon\",\"limit\":5}"
+                }
+              ]
+            },
+            "description": "Find free time slots for a given day (preferredTimeOfDay: morning, afternoon, evening, any)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Unified schedule view and time management"
     }
   ]
 }

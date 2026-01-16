@@ -2,7 +2,8 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
-  testMatch: ['**/features/**/*.test.ts', '!**/features/**/*.integration.test.ts'],
+  testMatch: ['**/features/**/*.integration.test.ts'],
+  testTimeout: 30000,
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',
@@ -10,8 +11,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    // Mock superjson to avoid ES module issues in tests
     '^superjson$': '<rootDir>/tests/__mocks__/superjson.js',
   },
-  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  // Use integration setup that loads real env vars (not mocked)
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.integration.ts'],
 };
