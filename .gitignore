@@ -67,8 +67,14 @@ Thumbs.db
 # Drizzle
 drizzle/
 
-# Documentation (as requested)
+# Documentation (selective - keep task runner context)
 docs/
+!docs/task-context/
+!docs/task-logs/
+!docs/loqinotes-rag-implementation-plan.md
+
+# Task Runner State
+.task-runner-state.json
 
 # Temporary files
 tmp/

@@ -6,6 +6,8 @@ import { coursesRouter } from '../features/courses/router';
 import { assignmentsRouter } from '../features/assignments/router';
 import { studySessionsRouter } from '../features/study-sessions/router';
 import { scheduleRouter } from '../features/schedule/router';
+import { aiRouter } from '../features/ai/router';
+import { searchRouter } from '../features/search/router';
 import type { AnyRouter } from '@trpc/server';
 
 export const appRouter = router({
@@ -16,6 +18,8 @@ export const appRouter = router({
   assignments: assignmentsRouter,
   studySessions: studySessionsRouter,
   schedule: scheduleRouter,
+  ai: aiRouter,
+  search: searchRouter,
 }) as AnyRouter;
 
 export type AppRouter = typeof appRouter;

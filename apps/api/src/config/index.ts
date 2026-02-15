@@ -29,7 +29,6 @@ export const config = {
     openai: {
       apiKey: process.env.OPENAI_API_KEY!,
       embeddingModel: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
-      embeddingDimensions: 1536,
     },
   },
 

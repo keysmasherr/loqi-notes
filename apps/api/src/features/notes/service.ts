@@ -6,6 +6,8 @@ import type {
 } from '@loqi-notes/shared-types';
 import { notes, tags, noteTags, users } from '../../db/schema';
 import { NotFoundError, ConflictError } from '../../utils/errors';
+import { inngest } from '../../lib/inngest';
+import { logger } from '../../lib/logger';
 
 function calculateWordCount(content: string): number {
   return content.trim().split(/\s+/).filter(Boolean).length;
@@ -72,6 +74,23 @@ export async function createNote(
       updatedAt: new Date(),
     })
     .where(eq(users.id, userId));
+
+  // Emit Inngest event for embedding generation
+  // Fire and forget - don't await to avoid blocking the response
+  inngest
+    .send({
+      name: 'notes/created',
+      data: {
+        noteId: note.id,
+        userId,
+        title: note.title,
+        content: note.content,
+        courseTag: undefined, // TODO: Get from tags when course tags are implemented
+      },
+    })
+    .catch((error) => {
+      logger.error({ error, noteId: note.id }, 'Failed to send notes/created event');
+    });
 
   return getNoteById(userId, note.id, db);
 }
@@ -226,7 +245,6 @@ export async function updateNote(
     updates.contentPlain = stripHtml(updateData.content);
     updates.wordCount = calculateWordCount(updates.contentPlain);
     updates.readingTimeMinutes = calculateReadingTime(updates.wordCount);
-    updates.embeddingStatus = 'stale'; // Mark for re-embedding
   }
 
   const [updated] = await db
@@ -234,6 +252,24 @@ export async function updateNote(
     .set(updates)
     .where(and(eq(notes.id, id), eq(notes.userId, userId)))
     .returning();
+
+  // Emit Inngest event for embedding regeneration (only if content changed)
+  if (updateData.content) {
+    inngest
+      .send({
+        name: 'notes/updated',
+        data: {
+          noteId: updated.id,
+          userId,
+          title: updated.title,
+          content: updated.content,
+          courseTag: undefined, // TODO: Get from tags when course tags are implemented
+        },
+      })
+      .catch((error) => {
+        logger.error({ error, noteId: updated.id }, 'Failed to send notes/updated event');
+      });
+  }
 
   return getNoteById(userId, updated.id, db);
 }

@@ -24,13 +24,6 @@ function addDays(days: number): Date {
   return date;
 }
 
-// Helper to add hours to a date
-function addHours(date: Date, hours: number): Date {
-  const newDate = new Date(date);
-  newDate.setHours(newDate.getHours() + hours);
-  return newDate;
-}
-
 // Helper to set time on a date
 function setTime(date: Date, hours: number, minutes: number = 0): Date {
   const newDate = new Date(date);

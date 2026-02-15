@@ -2,7 +2,6 @@
 // Mock external services here
 
 jest.mock('../src/lib/anthropic');
-jest.mock('../src/lib/openai');
 jest.mock('../src/lib/supabase');
 
 // Set test environment variables

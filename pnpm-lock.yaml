@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      tiktoken:
+        specifier: ^1.0.22
+        version: 1.0.22
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
@@ -74,6 +78,9 @@ importers:
       superjson:
         specifier: ^2.2.1
         version: 2.2.6
+      tiktoken:
+        specifier: ^1.0.22
+        version: 1.0.22
       zod:
         specifier: ^3.22.4
         version: 3.25.76
@@ -3530,6 +3537,9 @@ packages:
 
   thread-stream@2.7.0:
     resolution: {integrity: sha512-qQiRWsU/wvNolI6tbbCKd9iKaTnCXsTwVxhhKM6nctPdujTyztjlbUkUTUymidWcMnZ5pWR0ej4a0tjsW021vw==}
+
+  tiktoken@1.0.22:
+    resolution: {integrity: sha512-PKvy1rVF1RibfF3JlXBSP0Jrcw2uq3yXdgcEXtKTYn3QJ/cBRBHDnrJ5jHky+MENZ6DIPwNUGWpkVx+7joCpNA==}
 
   timers-ext@0.1.8:
     resolution: {integrity: sha512-wFH7+SEAcKfJpfLPkrgMPvvwnEtj8W4IurvEyrKsDleXnKLCDw71w8jltvfLa8Rm4qQxxT4jmDBYbJG/z7qoww==}
@@ -7634,6 +7644,8 @@ snapshots:
   thread-stream@2.7.0:
     dependencies:
       real-require: 0.2.0
+
+  tiktoken@1.0.22: {}
 
   timers-ext@0.1.8:
     dependencies:

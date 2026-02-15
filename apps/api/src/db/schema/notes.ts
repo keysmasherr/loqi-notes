@@ -24,12 +24,6 @@ export const notes = pgTable('notes', {
   clientUpdatedAt: timestamp('client_updated_at', { withTimezone: true }),
   lastSyncedAt: timestamp('last_synced_at', { withTimezone: true }),
 
-  // Embedding Status
-  embeddingStatus: text('embedding_status').notNull().default('pending'),
-  embeddingError: text('embedding_error'),
-  lastEmbeddedAt: timestamp('last_embedded_at', { withTimezone: true }),
-  embeddingModel: text('embedding_model'),
-
   // Study/Review
   lastReviewedAt: timestamp('last_reviewed_at', { withTimezone: true }),
   reviewCount: integer('review_count').notNull().default(0),

@@ -2,10 +2,13 @@ import express, { type Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
+import { serve } from 'inngest/express';
 import { appRouter } from './trpc/router';
 import { createContext } from './trpc/context';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './lib/logger';
+import { inngest } from './lib/inngest';
+import * as jobs from './jobs';
 
 const app: Express = express();
 
@@ -34,6 +37,15 @@ app.use(
     onError({ error, type, path }) {
       logger.error({ error, type, path }, 'tRPC error occurred');
     },
+  })
+);
+
+// Inngest serve endpoint
+app.use(
+  '/api/inngest',
+  serve({
+    client: inngest,
+    functions: Object.values(jobs),
   })
 );
 
